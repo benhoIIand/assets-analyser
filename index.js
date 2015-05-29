@@ -7,6 +7,7 @@ var glob = require('glob');
 var grunt = require('grunt');
 var cssAnalyser = require('./lib/cssAnalyser');
 var javascriptAnalyser = require('./lib/javascriptAnalyser');
+var gzipAnalyser = require('./lib/gzipAnalyser');
 var gzip;
 
 var defaultOptions = {
@@ -56,7 +57,7 @@ module.exports = function(options, files, done) {
     grunt.file.mkdir('tmp');
 
     _.defaults(_.clone(defaultOptions), options);
-    gzip = require('./lib/gzip')(options);
+    gzip = gzipAnalyser(options);
     matchedFiles.forEach(analyse);
 
     setTimeout(done, 500);
