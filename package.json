@@ -1,0 +1,37 @@
+{
+  "name": "assets-analyser",
+  "version": "0.1.0",
+  "description": "Analyses given files and reports back with compressed/uncompressed file sizes and custom reports.",
+  "homepage": "https://github.com/hollandben/assets-analyser",
+  "author": {
+    "name": "Ben Holland"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hollandben/assets-analyser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hollandben/assets-analyser/issues"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": "*"
+  },
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "css-parse": "~2.0.0",
+    "glob": "^5.0.10",
+    "lodash": "^2.4.1",
+    "meow": "^3.1.0",
+    "plato": "^1.5.0",
+    "q": "~1.0.0"
+  },
+  "keywords": [
+    "gruntplugin",
+    "css",
+    "JS",
+    "css-metrics",
+    "analysis"
+  ],
+  "bin": "cli.js"
+}
