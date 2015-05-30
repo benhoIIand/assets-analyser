@@ -4,7 +4,7 @@
 
 var path = require('path');
 var meow = require('meow');
-var analyse = require('./');
+var analyse = require('./src/');
 
 var cli = meow({
     help: [
@@ -20,15 +20,11 @@ if (!cli.flags.files) {
     process.exit(1);
 }
 
-analyse({}, cli.flags.files.split(','), function(err, available) {
+analyse({}, cli.flags.files.split(','), function(err) {
     if (err) {
         console.error(err);
         process.exit(1);
     }
-
-    // grunt.file.delete('tmp', {
-    //     force: true
-    // });
 
     process.exit(0);
 });

@@ -13,9 +13,12 @@
   "bugs": {
     "url": "https://github.com/hollandben/assets-analyser/issues"
   },
-  "main": "index.js",
+  "main": "src/index.js",
   "engines": {
     "node": "*"
+  },
+  "scripts": {
+    "test": "mocha"
   },
   "readmeFilename": "README.md",
   "dependencies": {
@@ -33,5 +36,10 @@
     "css-metrics",
     "analysis"
   ],
-  "bin": "cli.js"
+  "bin": "cli.js",
+  "devDependencies": {
+    "chai": "^2.3.0",
+    "chai-as-promised": "^5.0.0",
+    "mocha": "^2.2.5"
+  }
 }

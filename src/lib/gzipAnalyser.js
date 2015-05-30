@@ -2,10 +2,18 @@
 
 var fs = require('fs');
 var path = require('path');
+var _ = require('lodash');
 var Q = require('q');
 var zlib = require('zlib');
 
+var defaultOptions = {
+    tmp: 'tmp',
+    gzipLevel: 6
+};
+
 module.exports = function(options) {
+
+    _.defaults(options, defaultOptions);
 
     function getSize(filename) {
         var size = 0;
@@ -24,7 +32,7 @@ module.exports = function(options) {
     return function(filename) {
         var deferred = Q.defer();
         var file = path.basename(filename);
-        var dest = 'tmp/' + file + '.gz';
+        var dest = path.resolve(__dirname, '../../', options.tmp, file + '.gz');
 
         var srcStream = fs.createReadStream(filename);
         var destStream = fs.createWriteStream(dest);
@@ -36,8 +44,8 @@ module.exports = function(options) {
 
         destStream.on('close', function() {
             deferred.resolve({
-                uncompressed: Number(getSize(filename).toFixed(1)),
-                compressed: Number(getSize(dest).toFixed(1)),
+                uncompressed: Number(getSize(filename)),
+                compressed: Number(getSize(dest))
             });
         });
 
