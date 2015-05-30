@@ -8,7 +8,6 @@ module.exports = function(options) {
         var deferred = Q.defer();
 
         plato.inspect(file, options.tmp + '/plato', {}, function(report) {
-            // console.log(JSON.stringify(report));
             deferred.resolve(report);
         });
 

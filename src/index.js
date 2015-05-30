@@ -9,17 +9,13 @@ var cssAnalyser = require('./lib/cssAnalyser');
 var javascriptAnalyser = require('./lib/javascriptAnalyser');
 var gzipAnalyser = require('./lib/gzipAnalyser');
 var gzip;
-var jsAnalyser;
 
 var defaultOptions = {
     tmp: 'tmp',
     gzipLevel: 6
 };
 
-var analysers = {
-    css: cssAnalyser,
-    js: jsAnalyser
-};
+var analysers = {};
 
 function dummyAnalyser() {
     var deferred = Q.defer();
@@ -50,7 +46,9 @@ function analyse(filename) {
 }
 
 module.exports = function(options, files, done) {
-    var deferred = Q.defer();
+    gzip = gzipAnalyser(options);
+    analysers.css = cssAnalyser(options);
+    analysers.js = javascriptAnalyser(options);
 
     var matchedFiles = files.reduce(function(arr, matcher) {
         return glob.sync(matcher, {
@@ -58,13 +56,10 @@ module.exports = function(options, files, done) {
         });
     }, []);
 
-    _.defaults(options, defaultOptions)
+    _.defaults(options, defaultOptions);
 
     // Make tmp directory
     grunt.file.mkdir(options.tmp);
-
-    gzip = gzipAnalyser(options);
-    jsAnalyser = javascriptAnalyser(options);
 
     return Q.all(matchedFiles.map(analyse)).spread(function() {
         var data = [].slice.call(arguments);
@@ -76,6 +71,8 @@ module.exports = function(options, files, done) {
         grunt.file.delete(options.tmp, {
             force: true
         });
+
+        done();
 
         return data;
     });

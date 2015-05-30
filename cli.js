@@ -2,7 +2,6 @@
 
 'use strict';
 
-var path = require('path');
 var meow = require('meow');
 var analyse = require('./src/');
 
