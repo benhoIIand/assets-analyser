@@ -19,7 +19,7 @@ if (!cli.flags.files) {
     process.exit(1);
 }
 
-analyse({}, cli.flags.files.split(','), function(err) {
+analyse(cli.flags, cli.flags.files.split(','), function(err) {
     if (err) {
         console.error(err);
         process.exit(1);
