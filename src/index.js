@@ -32,9 +32,10 @@ function analyse(filename) {
     //Get file size and compression data
     return Q.all([gzip(filename), analyser(filename)])
         .spread(function(gzipData, analysis) {
-            var data = _.assign(gzipData, analysis, {
+            var data = _.assign(gzipData, analysis[0] ? analysis[0] : analysis, {
                 type: extension,
-                filename: filename
+                filename: filename,
+                datetime: Date.now()
             });
 
             console.log('--------------------------------');
@@ -71,8 +72,6 @@ module.exports = function(options, files, done) {
         grunt.file.delete(options.tmp, {
             force: true
         });
-
-        done();
 
         return data;
     });

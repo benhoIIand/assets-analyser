@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Plato - JavaScript Introspection</title>
+    <title>Asset Monitor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="assets/css/vendor/bootstrap.css" rel="stylesheet">
@@ -18,9 +18,11 @@
             <div class="col-sm-6 col-lg-4">
                 <div class="block">
                     <div class="block-content">
-                        <div class="block-title" data-bind="text: name"></div>
-                        <h1 class="block-data"><span data-bind="text: uncompressed"></span><span class="block-unit" data-bind="text: unit"></span></h1>
-                        <div class="block-chart" data-bind="attr: { id: id }"></div>
+                        <div class="block-title" data-bind="text: $data[0].name"></div>
+                        <h1 class="block-data">
+                            <span data-bind="text: $data[0].uncompressed"></span><span class="block-unit" data-bind="text: $data[0].unit"></span>
+                        </h1>
+                        <div class="block-chart" data-bind="attr: { id: $data[0].id }"></div>
                     </div>
                 </div>
             </div>

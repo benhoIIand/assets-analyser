@@ -1,19 +1,20 @@
 (function() {
 
-    window.fetch('output.json').then(function(response) {
-        return response.json().then(drawThings);
+    window.fetch('anaylsis.json').then(function(response) {
+        return response.json().then(createViewModel).then(drawThings);
     });
 
-    function drawThings(files) {
+    function createViewModel(raw) {
+        var files = [];
 
-        files.map(function (obj) {
-            obj.name = obj.filename.split('/').pop();
-            obj.size = (obj.uncompressed / 1024).toFixed(1);
-            obj.unit = 'kb';
-            obj.id = 'chart-' + obj.name.replace(/\./g, '-');
-            obj.history = [obj.uncompressed, obj.uncompressed * 1.2, obj.uncompressed * 1.8];
-            return obj;
-        });
+        for (var file in raw) {
+            files.push(raw[file].map(function (obj) {
+                obj.name = obj.filename.split('/').pop();
+                obj.unit = 'kb';
+                obj.id = 'chart-' + obj.name.replace(/\./g, '-');
+                return obj;
+            }));
+        }
 
         function ViewModel() {
             this.files = files;
@@ -21,13 +22,17 @@
 
         ko.applyBindings(new ViewModel());
 
-        files.forEach(function(file) {
-            var el = document.getElementById(file.id);
+        return files;
+    }
 
-            var data = file.history.map(function (size, i) {
+    function drawThings(files) {
+        files.forEach(function(file) {
+            var el = document.getElementById(file[0].id);
+
+            var data = file.map(function(obj, i) {
                 return {
                     x: i,
-                    y: size
+                    y: obj.uncompressed
                 };
             });
 
