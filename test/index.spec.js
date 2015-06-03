@@ -3,10 +3,6 @@
 var path = require('path');
 var file = require('file-utils');
 var chai = require('chai');
-var chaiAsPromised = require('chai-as-promised');
-
-chai.use(chaiAsPromised);
-
 var expect = chai.expect;
 
 var assetsAnalyser = require('../src/');
@@ -17,18 +13,20 @@ describe('assetsAnalyser', function() {
         file.mkdir('tmp');
     });
 
-    it('should run assets analyser', function(done) {
+    it('should run assets analyser', function() {
         var file = path.resolve(__dirname, 'fixtures/css-dummy.css');
 
-        expect(assetsAnalyser({}, [file])).to.eventually.become([{
-            uncompressed: 214,
-            compressed: 149,
-            rules: 4,
-            totalSelectors: 9,
-            averageSelectors: 2.3,
-            type: 'css',
-            filename: file
-        }]).notify(done);
+        return assetsAnalyser({}, [file]).then(function(result) {
+            expect(result).to.deep.equal([{
+                uncompressed: 214,
+                compressed: 149,
+                rules: 4,
+                totalSelectors: 9,
+                averageSelectors: 2.3,
+                type: 'css',
+                filename: file
+            }]);
+        });
     });
 
     // it('should write the data to a file when specified', function(done) {
