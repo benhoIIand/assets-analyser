@@ -1,3 +1,5 @@
-function hello() {
+'use strict';
+
+(function hello() {
     return 'hello';
-}
+})();

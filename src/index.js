@@ -4,7 +4,7 @@ var Q = require('q');
 var _ = require('lodash');
 var path = require('path');
 var glob = require('glob');
-var grunt = require('grunt');
+var file = require('file-utils');
 var cssAnalyser = require('./lib/cssAnalyser');
 var javascriptAnalyser = require('./lib/javascriptAnalyser');
 var gzipAnalyser = require('./lib/gzipAnalyser');
@@ -20,6 +20,7 @@ var analysers = {};
 function dummyAnalyser() {
     var deferred = Q.defer();
     deferred.resolve({});
+    // Q.when({})
     return deferred.promise;
 }
 
@@ -27,15 +28,14 @@ function analyse(filename) {
     var extension = path.extname(filename).replace('.', '');
     var analyser = analysers[extension] ? analysers[extension] : dummyAnalyser;
 
-    console.log('Analysing ' + filename);
+    console.log('Analysing', filename, '...');
 
     //Get file size and compression data
     return Q.all([gzip(filename), analyser(filename)])
         .spread(function(gzipData, analysis) {
             var data = _.assign(gzipData, analysis[0] ? analysis[0] : analysis, {
                 type: extension,
-                filename: filename,
-                datetime: Date.now()
+                filename: filename
             });
 
             console.log('--------------------------------');
@@ -46,7 +46,7 @@ function analyse(filename) {
         });
 }
 
-module.exports = function(options, files, done) {
+module.exports = function(options, files) {
     gzip = gzipAnalyser(options);
     analysers.css = cssAnalyser(options);
     analysers.js = javascriptAnalyser(options);
@@ -60,16 +60,16 @@ module.exports = function(options, files, done) {
     _.defaults(options, defaultOptions);
 
     // Make tmp directory
-    grunt.file.mkdir(options.tmp);
+    file.mkdir(options.tmp);
 
     return Q.all(matchedFiles.map(analyse)).spread(function() {
         var data = [].slice.call(arguments);
 
         if (options.output) {
-            grunt.file.write(options.output, JSON.stringify(data));
+            file.write(options.output, JSON.stringify(data));
         }
 
-        grunt.file.delete(options.tmp, {
+        file.delete(options.tmp, {
             force: true
         });
 

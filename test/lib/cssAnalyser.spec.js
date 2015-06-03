@@ -8,7 +8,7 @@ chai.use(chaiAsPromised);
 
 var expect = chai.expect;
 
-var cssAnalyser = require('../../src/lib/cssAnalyser');
+var cssAnalyser = require('../../src/lib/cssAnalyser')();
 
 describe('cssAnalyser', function() {
 

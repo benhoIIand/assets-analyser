@@ -1,9 +1,7 @@
 'use strict';
 
-var fs = require('fs');
 var path = require('path');
-var Q = require('q');
-var grunt = require('grunt');
+var file = require('file-utils');
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 
@@ -16,11 +14,7 @@ var assetsAnalyser = require('../src/');
 describe('assetsAnalyser', function() {
 
     beforeEach(function() {
-        grunt.file.mkdir('tmp');
-    });
-
-    afterEach(function() {
-        grunt.file.delete('tmp');
+        file.mkdir('tmp');
     });
 
     it('should run assets analyser', function(done) {
@@ -41,8 +35,8 @@ describe('assetsAnalyser', function() {
     //     expect(assetsAnalyser({
     //         output: 'temp/data.json'
     //     }, [path.resolve(__dirname, 'fixtures/css-dummy.css')])).then(function () {
-    //         var fileExists = grunt.file.exists('temp/data.json');
-    //         var fileContents = grunt.file.read('temp/data.json');
+    //         var fileExists = file.exists('temp/data.json');
+    //         var fileContents = file.read('temp/data.json');
 
     //         Q.all([
     //             expect(fileExists).to.become(true),

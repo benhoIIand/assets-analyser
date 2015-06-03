@@ -1,8 +1,7 @@
 'use strict';
 
-var fs = require('fs');
 var path = require('path');
-var grunt = require('grunt');
+var file = require('file-utils');
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 
@@ -17,11 +16,11 @@ var gzipAnalyser = require('../../src/lib/gzipAnalyser')({
 describe('gzipAnalyser', function() {
 
     beforeEach(function() {
-        grunt.file.mkdir('tmp-gzip');
+        file.mkdir('tmp-gzip');
     });
 
     afterEach(function() {
-        grunt.file.delete('tmp-gzip');
+        file.delete('tmp-gzip');
     });
 
     it('should return the compression stats of a file', function(done) {
