@@ -1,7 +1,12 @@
 assets-analyser
 ===============
 
-### This is currently under development
+## This is currently under development
+
+[![npm version](https://badge.fury.io/js/assets-analyser.svg)](http://badge.fury.io/js/assets-analyser)
+[![Build Status](https://travis-ci.org/hollandben/assets-analyser.png?branch=master)](https://travis-ci.org/hollandben/assets-analyser)
+[![Dependencies](https://david-dm.org/hollandben/assets-analyser.svg)](https://david-dm.org/hollandben/assets-analyser.svg)
+[![devDependency Status](https://david-dm.org/alanshaw/david/dev-status.svg?style=flat)](https://david-dm.org/alanshaw/david#info=devDependencies)
 
 Analyses given files and reports back with compressed/uncompressed file sizes and custom reports.
 
