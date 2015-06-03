@@ -1,5 +1,6 @@
 'use strict';
 
+require('colors');
 var Q = require('q');
 var _ = require('lodash');
 var path = require('path');
@@ -18,10 +19,7 @@ var defaultOptions = {
 var analysers = {};
 
 function dummyAnalyser() {
-    var deferred = Q.defer();
-    deferred.resolve({});
-    // Q.when({})
-    return deferred.promise;
+    return Q.when({});
 }
 
 function analyse(filepath) {
