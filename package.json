@@ -15,7 +15,7 @@
   },
   "main": "src/index.js",
   "engines": {
-    "node": "*"
+    "node": ">= 0.10.0"
   },
   "scripts": {
     "test": "mocha"
@@ -35,6 +35,5 @@
     "chai-as-promised": "^5.0.0",
     "mocha": "^2.2.5"
   },
-  "keywords": [],
   "bin": "cli.js"
 }
