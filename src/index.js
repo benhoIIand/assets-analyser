@@ -11,8 +11,8 @@ var gzipAnalyser = require('./lib/gzipAnalyser');
 var gzip;
 
 var defaultOptions = {
-    tmp: 'tmp',
-    gzipLevel: 6
+    gzipLevel: 6,
+    tmp: './tmp'
 };
 
 var analysers = {};
@@ -24,18 +24,20 @@ function dummyAnalyser() {
     return deferred.promise;
 }
 
-function analyse(filename) {
-    var extension = path.extname(filename).replace('.', '');
+function analyse(filepath) {
+    var extension = path.extname(filepath).replace('.', '');
     var analyser = analysers[extension] ? analysers[extension] : dummyAnalyser;
+    var relativePath = filepath.replace(process.cwd(), '');
 
-    console.log('Analysing', filename, '...');
+    console.log('Analysing', relativePath, '...');
 
     //Get file size and compression data
-    return Q.all([gzip(filename), analyser(filename)])
+    return Q.all([gzip(filepath), analyser(filepath)])
         .spread(function(gzipData, analysis) {
             var data = _.assign(gzipData, analysis[0] ? analysis[0] : analysis, {
                 type: extension,
-                filename: filename
+                filename: filepath.split('/').pop(),
+                filepath: relativePath
             });
 
             console.log('--------------------------------');
@@ -47,17 +49,19 @@ function analyse(filename) {
 }
 
 module.exports = function(options, files) {
+    _.defaults(options, defaultOptions);
+
+    options.tmp = path.resolve(options.tmp);
+
     gzip = gzipAnalyser(options);
     analysers.css = cssAnalyser(options);
     analysers.js = javascriptAnalyser(options);
 
     var matchedFiles = files.reduce(function(arr, matcher) {
-        return glob.sync(matcher, {
+        return glob.sync(path.resolve(matcher), {
             nodir: true
         });
     }, []);
-
-    _.defaults(options, defaultOptions);
 
     // Make tmp directory
     file.mkdir(options.tmp);
@@ -65,13 +69,13 @@ module.exports = function(options, files) {
     return Q.all(matchedFiles.map(analyse)).spread(function() {
         var data = [].slice.call(arguments);
 
-        if (options.output) {
-            file.write(options.output, JSON.stringify(data));
-        }
-
         file.delete(options.tmp, {
             force: true
         });
+
+        if (options.output) {
+            file.write(options.output, JSON.stringify(data));
+        }
 
         return data;
     });

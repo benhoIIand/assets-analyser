@@ -24,7 +24,8 @@ describe('assetsAnalyser', function() {
                 totalSelectors: 9,
                 averageSelectors: 2.3,
                 type: 'css',
-                filename: file
+                filename: "css-dummy.css",
+                filepath: "/test/fixtures/css-dummy.css"
             }]);
         });
     });
