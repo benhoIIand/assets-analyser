@@ -14,12 +14,33 @@ This module was inspired and based up [grunt-asset-monitor](https://github.com/g
 
 ## Options
 
+### analysers
+
+Type: `Array`
+Default: `['css', 'js']`
+
+By default, asset-analyser will return the size of each file. This is a list of additional analysis tools for various file types.
+
+### files
+
+Type: `String|Array`
+Default: `Required`
+
+Location of files to be analysed - works with glob matching so `/**/*.js` will work.
+
 ### gzipLevel
 
 Type: `Number`
 Default: `6`
 
 Level of GZip compression to use to generate compressed file size output.
+
+### quiet
+
+Type: `Boolean`
+Default: `false`
+
+Disables logging of information - only shows errors.
 
 ## Release History
 
