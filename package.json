@@ -1,6 +1,6 @@
 {
   "name": "assets-analyser",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Analyses given files and reports back with compressed/uncompressed file sizes and custom reports.",
   "homepage": "https://github.com/hollandben/assets-analyser",
   "author": {
