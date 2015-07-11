@@ -16,8 +16,12 @@ describe('assetsAnalyser', function() {
     it('should run assets analyser', function() {
         var file = path.resolve(__dirname, 'fixtures/css-dummy.css');
 
-        return assetsAnalyser({}, [file]).then(function(result) {
-            expect(result).to.deep.equal([{
+        return assetsAnalyser({}, [file]).then(function(results) {
+            var date = Date.now();
+            expect(results[0].timestamp).to.be.within(date - 10, date + 10);
+
+            delete results[0].timestamp;
+            expect(results).to.deep.equal([{
                 uncompressed: 214,
                 compressed: 149,
                 rules: 4,
@@ -29,19 +33,5 @@ describe('assetsAnalyser', function() {
             }]);
         });
     });
-
-    // it('should write the data to a file when specified', function(done) {
-    //     expect(assetsAnalyser({
-    //         output: 'temp/data.json'
-    //     }, [path.resolve(__dirname, 'fixtures/css-dummy.css')])).then(function () {
-    //         var fileExists = file.exists('temp/data.json');
-    //         var fileContents = file.read('temp/data.json');
-
-    //         Q.all([
-    //             expect(fileExists).to.become(true),
-    //             expect(fileContents).to.become(result)
-    //         ])
-    //     }).should.notify(done);
-    // });
 
 });
