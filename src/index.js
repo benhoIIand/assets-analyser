@@ -73,7 +73,8 @@ module.exports = function(options, files) {
                 var data = _.assign(gzipData, analysis[0] ? analysis[0] : analysis, {
                     type: extension,
                     filename: filepath.split('/').pop(),
-                    filepath: relativePath
+                    filepath: relativePath,
+                    timestamp: Date.now()
                 });
 
                 if(!options.quiet) {
